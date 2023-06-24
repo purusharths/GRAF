@@ -36,6 +36,7 @@ Values of alpha and size can be changed inside the demo.cc
 
 ##### @TODO:
     - Generate RF for mesh
+    - Add doxygen comments
     - Makefile
     - ini file
     - Add 2D Matern Covaraince function, Cholesky Factorization, and function for KL Decomposition
