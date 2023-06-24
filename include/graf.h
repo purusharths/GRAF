@@ -9,13 +9,13 @@
 
 class GaussianRandomField {
 public:
-    FFTShiftGenerator(std::size_t size, std::size_t alpha)
+    GaussianRandomField(std::size_t size, std::size_t alpha)
                      : size(size), alpha(alpha) {
         xt::random::seed(time(NULL));
         translate = (size + 1) / 2;
     }
 
-    void generate(){
+    void generate_grid(){
         auto grid = xt::meshgrid(xt::arange<double>(0, this->size),
                                  xt::arange<double>(0, this->size));
 
@@ -23,13 +23,42 @@ public:
         xt::xarray<double> y = std::get<1>(grid) - translate;
 
         this->xy_ = xt::stack(xt::xtuple(x, y));
-
         this->fftshift_roll(this->xy_);
     }
 
     void compute(){
-        auto amplitude = xt::pow(xt::sum(xt::square(p), 0) + 1e-10, -alpha / 4);
+        auto p = xy_;
+        auto first_pow = xt::pow(xt::view(this->xy_, 0), 2);
+        auto second_pow = xt::pow(xt::view(this->xy_, 1), 2);
+        auto offseted_matrix = (first_pow+second_pow) + 1e-10;
+        // calculate amplitude
+        auto amplitude = xt::pow(offseted_matrix, -alpha/2);        
+        // auto amplitude = xt::pow(xt::sum(xt::square(this->xy_), 0) + 1e-10, -alpha/4);
+        std::cout << xt::pow((xt::sum(xt::square(p),0) + 1e-10), -alpha/4) << std::endl;        
+        auto modified_amplitude = xt::xarray<double>(amplitude.shape());
+        xt::noalias(modified_amplitude) = amplitude;
+        xt::view(modified_amplitude, 0, 0) = 0;
+
+
+        auto rn = xt::random::randn<double>({size, size});
+        auto im = xt::random::randn<double>({size, size});
+
+        xt::xarray<std::complex<double>> noise = xt::cast<std::complex<double>>(rn) +
+                                                 xt::cast<std::complex<double>>(im) * std::complex<double>(0.0, 1.0);
+        xt::xarray<std::complex<double>> mat_ifft2 = noise * modified_amplitude;
+
+        auto gfield_imag = xt::fftw::ifft2(mat_ifft2);
+        auto gfield = xt::real(gfield_imag);
+        xt::dump_npy("gfield.npy", gfield);
     }
+
+    // void save_to_npy(){
+    //     xt::dump_npy("gfield.npy", this->gfield);
+    // }
+
+    // auto get_grf(){
+    //     return this->gfield;
+    // }
 
     void fftshift_roll(xt::xarray<double>& array) {
         std::size_t ndims = array.dimension();
@@ -47,6 +76,8 @@ public:
     }
 
 private:
-    std::size_t size, p;
+    std::size_t size, alpha;
     xt::xarray<double> xy_;
+    // xt::xarray<std::complex<double>> gfield;
     int translate;
+};
