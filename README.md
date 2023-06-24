@@ -18,7 +18,7 @@ g++ -o demo demo.cc -l fftw3
 
 Values of alpha and size can be changed inside the demo.cc
 
-#### @TODO:
+##### @TODO:
     - Generate RF for mesh
     - Makefile
     - ini file
