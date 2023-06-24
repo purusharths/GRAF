@@ -1,4 +1,4 @@
-## GARF++: Gaussian Random Fields in C++
+## GRAF++: Gaussian RAndom Fields in c++
 
 A header only library for generating Gaussian Random Fields. 
 
