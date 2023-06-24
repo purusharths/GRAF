@@ -1,0 +1,6 @@
+[submodule "include/xtensor"]
+	path = include/xtensor
+	url = https://github.com/xtensor-stack/xtensor.git
+[submodule "include/xtensor-fftw"]
+	path = include/xtensor-fftw
+	url = https://github.com/xtensor-stack/xtensor-fftw.git
