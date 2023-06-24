@@ -17,7 +17,7 @@ g++ -o demo demo.cc -l fftw3
 ```
 
 
-![size=125, alpha=5](test/img/grf.png=420x)
+![size=125, alpha=5](test/img/grf.png =420x)
 
 Values of alpha and size can be changed inside the demo.cc
 
