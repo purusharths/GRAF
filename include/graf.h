@@ -9,7 +9,7 @@
 
 class GaussianRandomField {
 public:
-    GaussianRandomField(std::size_t size, std::size_t alpha)
+    GaussianRandomField(std::size_t size, int alpha)
                      : size(size), alpha(alpha) {
         xt::random::seed(time(NULL));
         translate = (size + 1) / 2;
@@ -26,15 +26,9 @@ public:
         this->fftshift_roll(this->xy_);
     }
 
-    void compute(){
-        auto p = xy_;
-        auto first_pow = xt::pow(xt::view(this->xy_, 0), 2);
-        auto second_pow = xt::pow(xt::view(this->xy_, 1), 2);
-        auto offseted_matrix = (first_pow+second_pow) + 1e-10;
-        // calculate amplitude
-        auto amplitude = xt::pow(offseted_matrix, -alpha/2);        
-        // auto amplitude = xt::pow(xt::sum(xt::square(this->xy_), 0) + 1e-10, -alpha/4);
-        std::cout << xt::pow((xt::sum(xt::square(p),0) + 1e-10), -alpha/4) << std::endl;        
+    void compute(){     
+        auto amplitude = xt::pow(xt::sum(xt::square(this->xy_), 0) + 1e-10, -alpha);
+        // std::cout << xt::pow((xt::sum(xt::square(p),0) + 1e-10), -alpha/4) << std::endl;        
         auto modified_amplitude = xt::xarray<double>(amplitude.shape());
         xt::noalias(modified_amplitude) = amplitude;
         xt::view(modified_amplitude, 0, 0) = 0;
@@ -76,7 +70,8 @@ public:
     }
 
 private:
-    std::size_t size, alpha;
+    std::size_t size;
+    int alpha;
     xt::xarray<double> xy_;
     // xt::xarray<std::complex<double>> gfield;
     int translate;
