@@ -4,8 +4,21 @@ A header only library for generating Gaussian Random Fields.
 
 Requirements:
   1. FFTW3 <br>
+  debian<br>
+  `sudo apt install fftw3 libfftw3-dev`
+  fedora<br>
+  `sudo dnf install fftw3 fftw3-dev`
+  
   2. xtensor (header only)<br>
   3. xtensor-fftw (header only) <br>
+  ```
+  Cone with submodules enabled:
+  git clone --recurse-submodules <this-repo> 
+  or
+  git clone <this-repo>
+  git submodules init
+  git submodules update
+  ```
 
 This library is built on top of xtensor arrays. xtensor-fftw in turn calls xtensor. Since submodules are already added in the repository, only fftw3 has to be installed explicitly. The implementation is a bit slow, as of now the focus is not on performance but instead integration with [hiflow3](https://emcl-gitlab.iwr.uni-heidelberg.de/hiflow3.org/hiflow3/-/wikis/home).
 
