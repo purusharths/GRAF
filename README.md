@@ -2,7 +2,7 @@
 
 A header only library for generating Gaussian Random Fields. 
 
-Requirements: <br>
+Requirements:
   1. FFTW3 <br>
   2. xtensor <br>
   3. xtensor-fftw <br>
