@@ -15,7 +15,8 @@ cd src
 g++ -o demo demo.cc -l fftw3
 ./demo
 ```
-![size=125, alpha=5](test/img/grf.png)
+
+<img src="grf.jpg" alt="size=125, alpha=5" width="200"/>
 
 Values of alpha and size can be changed inside the demo.cc
 
