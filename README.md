@@ -35,7 +35,9 @@ g++ -o demo demo.cc -l fftw3
 Values of alpha and size can be changed inside the demo.cc
 
 ##### @TODO:
-    - Generate RF for mesh
+    - Rewrite for KL Expansion: https://amses-journal.springeropen.com/articles/10.1186/s40323-018-0114-7
+    - 
+    - ~~Generate RF for mesh~~ PDE Based Sampling approach?
     - Add doxygen comments
     - Makefile
     - ini file
